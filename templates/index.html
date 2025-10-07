@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sickle Cell Disease Prediction</title>
+    <style>
+        body {
+            background: #f7f9fa;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 450px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+            padding: 32px 28px;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeSlideIn 1s cubic-bezier(.55,0,.1,1) forwards;
+        }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        h2 {
+            text-align: center;
+            color: #2962ff;
+            margin-bottom: 28px;
+            letter-spacing: 1px;
+        }
+        form label {
+            display: block;
+            margin-top: 14px;
+            font-weight: bold;
+        }
+        form input[type="number"], form select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            transition: border 0.22s;
+        }
+        form input:focus, form select:focus {
+            border-color: #90caf9;
+            outline: none;
+        }
+        form select {
+            height: 40px;
+        }
+        .btn-submit {
+            margin-top: 22px;
+            width: 100%;
+            padding: 12px;
+            background: #2962ff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.28s, transform 0.17s;
+            box-shadow: 0 0 0 rgba(41,98,255,0.18);
+        }
+        .btn-submit:hover {
+            background: #0039cb;
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 6px 22px rgba(41,98,255,0.14);
+        }
+        .result {
+            margin-top: 25px;
+            text-align: center;
+            padding: 12px 0;
+            background: #e3f2fd;
+            border-radius: 5px;
+            color: #1a237e;
+            font-size: 1.10em;
+            opacity: 0;
+            animation: resultFadeIn 0.9s cubic-bezier(.4,0,.35,1) 0.2s forwards;
+        }
+        @keyframes resultFadeIn {
+            0% { opacity: 0; transform: translateY(15px); }
+            90% { opacity: 0.80; }
+            100% { opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sickle Cell Disease Prediction</h2>
+        <form action="/predict" method="post" autocomplete="off">
+
+            <!-- Age -->
+            <label for="age">Age (years)</label>
+            <input type="number" id="age" name="age" min="0" required>
+
+            <!-- Parental Sickle Cell Trait -->
+            <label for="fathersct">Father has Sickle Cell Trait?</label>
+            <select id="fathersct" name="fathersct" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="mothersct">Mother has Sickle Cell Trait?</label>
+            <select id="mothersct" name="mothersct" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="family_history">Family History?</label>
+            <select id="family_history" name="family_history" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <!-- Clinical Symptoms -->
+            <label for="fatigue">Fatigue?</label>
+            <select id="fatigue" name="fatigue" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="jaundice">Jaundice?</label>
+            <select id="jaundice" name="jaundice" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="swelling_hands">Swelling of Hands?</label>
+            <select id="swelling_hands" name="swelling_hands" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="frequent_infection">Frequent Infections?</label>
+            <select id="frequent_infection" name="frequent_infection" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="pain_crises">Pain Crises?</label>
+            <select id="pain_crises" name="pain_crises" required>
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <!-- Laboratory Values -->
+            <label for="hemoglobin">Hemoglobin (g/dL)</label>
+            <input type="number" id="hemoglobin" name="hemoglobin" min="0" step="0.1" required>
+
+            <label for="hb_electrophoresis_percentage">Hb Electrophoresis Percentage (%)</label>
+            <input type="number" id="hb_electrophoresis_percentage" name="hb_electrophoresis_percentage" min="0" max="100" step="0.1" required>
+
+            <button class="btn-submit" type="submit">Predict Sickle Cell Status</button>
+        </form>
+        {% if prediction %}
+        <div class="result">
+            {{ prediction }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
